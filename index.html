@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy 16th Birthday Nuvetha</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Background Sparkles Container -->
+    <div class="sparkles-container" id="sparkles-container">
+        <!-- Floating sparkle overlays -->
+        <span class="sparkle sparkle-1"></span>
+        <span class="sparkle sparkle-2"></span>
+        <span class="sparkle sparkle-3"></span>
+        <span class="sparkle sparkle-4"></span>
+        <span class="sparkle sparkle-5"></span>
+    </div>
+
+    <!-- Floating Background Balloons -->
+    <div class="balloons-bg-container" id="balloons-bg-container">
+        <!-- Balloons floating in background with varying durations, delays and left offsets -->
+        <div class="balloon balloon-rose" style="--balloon-left: 10%; --balloon-delay: 0s; --balloon-duration: 15s; --balloon-size: 60px;"></div>
+        <div class="balloon balloon-champagne" style="--balloon-left: 25%; --balloon-delay: 4s; --balloon-duration: 18s; --balloon-size: 70px;"></div>
+        <div class="balloon balloon-gold" style="--balloon-left: 45%; --balloon-delay: 2s; --balloon-duration: 20s; --balloon-size: 55px;"></div>
+        <div class="balloon balloon-rose-light" style="--balloon-left: 70%; --balloon-delay: 7s; --balloon-duration: 14s; --balloon-size: 65px;"></div>
+        <div class="balloon balloon-gold-light" style="--balloon-left: 85%; --balloon-delay: 1s; --balloon-duration: 16s; --balloon-size: 80px;"></div>
+    </div>
+
+    <!-- Floating Audio Control Widget -->
+    <div class="audio-widget-container" id="audio-widget-container">
+        <div class="audio-panel glass-card">
+            <div class="track-info">
+                <!-- Glowing animated musical note lines -->
+                <div class="music-visualizer" id="music-visualizer">
+                    <span class="bar bar-1"></span>
+                    <span class="bar bar-2"></span>
+                    <span class="bar bar-3"></span>
+                    <span class="bar bar-4"></span>
+                </div>
+                <div class="track-text">
+                    <span class="track-title">Pookkale Sattru Oyivedungal</span>
+                    <span class="track-artist">A. R. Rahman</span>
+                </div>
+            </div>
+            <button class="audio-toggle-btn" id="audio-toggle-btn" aria-label="Toggle music">
+                <i class="fa-solid fa-play" id="audio-btn-icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- STAGE 1: Pre-Birthday Countdown Screen (Locked) -->
+    <!-- The class 'active' controls visibility. Removed by JS when countdown hits 0 -->
+    <div class="screen-overlay countdown-screen active" id="countdown-screen">
+        <div class="countdown-decor-circle circle-1"></div>
+        <div class="countdown-decor-circle circle-2"></div>
+        <div class="glass-card countdown-card text-center">
+            <span class="countdown-intro font-cursive">A Magical Moment Awaits...</span>
+            <h1 class="countdown-title font-cursive glow-text">Nuvetha's Sweet 16</h1>
+            <div class="divider"></div>
+            
+            <div class="countdown-timer" id="pre-birthday-timer">
+                <div class="timer-segment">
+                    <span class="time-num" id="countdown-days">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="timer-segment">
+                    <span class="time-num" id="countdown-hours">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="timer-segment">
+                    <span class="time-num" id="countdown-minutes">00</span>
+                    <span class="time-label">Mins</span>
+                </div>
+                <div class="timer-segment">
+                    <span class="time-num" id="countdown-seconds">00</span>
+                    <span class="time-label">Secs</span>
+                </div>
+            </div>
+            <p class="countdown-footer font-sans">The secret unlocks at midnight on May 28th, 2026</p>
+        </div>
+    </div>
+
+    <!-- ENVELOPE SCREEN (Unlocks after countdown, invites user with clickable seal) -->
+    <!-- Hidden by default, JS toggles 'active' and 'open' classes -->
+    <div class="screen-overlay envelope-screen" id="envelope-screen">
+        <div class="envelope-container">
+            <div class="envelope" id="envelope">
+                <div class="envelope-flap top-flap"></div>
+                <div class="envelope-flap left-flap"></div>
+                <div class="envelope-flap right-flap"></div>
+                <div class="envelope-flap bottom-flap"></div>
+                
+                <!-- Clickable Wax Seal -->
+                <div class="wax-seal-wrapper">
+                    <button class="wax-seal-btn heartbeat" id="wax-seal-btn" aria-label="Open Letter">
+                        <span class="seal-text font-cursive">N</span>
+                    </button>
+                </div>
+                
+                <!-- Invited card sticking out of envelope -->
+                <div class="envelope-card glass-card">
+                    <h2 class="font-cursive letter-heading text-center">Happy 16th Birthday, Nuvetha</h2>
+                    <p class="letter-peek-text text-center">You are officially invited to step into a special garden of memories built just for you...</p>
+                    <span class="envelope-prompt font-cursive text-center">Click the seal to begin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 2: MAIN DASHBOARD CONTAINER -->
+    <!-- Visible after envelope is opened. JS toggles 'active' class on wrapper -->
+    <div class="main-dashboard-wrapper" id="main-dashboard">
+        
+        <!-- Hero Section -->
+        <header class="dashboard-hero">
+            <div class="hero-glow-sphere"></div>
+            <div class="hero-content text-center">
+                <span class="hero-subtitle font-cursive glow-text">Happy 16th Birthday</span>
+                <h1 class="hero-title font-sans">NUVETHA</h1>
+                <p class="hero-date font-sans">May 28, 2026</p>
+                <div class="scroll-down-wrapper">
+                    <a href="#gallery-section" class="scroll-down-indicator" aria-label="Scroll Down">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Polaroid Photo Gallery Section -->
+        <section class="dashboard-section" id="gallery-section">
+            <div class="section-header text-center">
+                <h2 class="section-title font-sans">Moments Captured</h2>
+                <p class="section-desc font-cursive">A collection of beautiful memories frozen in time</p>
+                <div class="decor-line"></div>
+            </div>
+
+            <!-- Polaroid Grid/Container (10 items) -->
+            <div class="polaroid-gallery-wrapper" id="polaroid-gallery">
+                
+
+                
+                <!-- Polaroid 1 -->
+                <div class="polaroid-card polaroid-item-1 draggable" style="--rot: -6deg; --tx: -10px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo1.jpg" alt="Moment 1" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Your Radiance &bull; Dec 2024</div>
+                </div>
+
+                <!-- Polaroid 2 -->
+                <div class="polaroid-card polaroid-item-2 draggable" style="--rot: 4deg; --tx: 15px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo2.jpg" alt="Moment 2" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">A Day to Remember</div>
+                </div>
+
+                <!-- Polaroid 3 -->
+                <div class="polaroid-card polaroid-item-3 draggable" style="--rot: -2deg; --tx: 0px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo3.jpg" alt="Moment 3" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                            <!-- Hidden gold key element -->
+                            <div id="gold-key" class="hidden-gold-key" aria-label="Hidden gold key">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Pure Happiness</div>
+                </div>
+
+                <!-- Polaroid 4 -->
+                <div class="polaroid-card polaroid-item-4 draggable" style="--rot: 5deg; --tx: -20px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo4.jpg" alt="Moment 4" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Quiet Afternoons</div>
+                </div>
+
+                <!-- Polaroid 5 -->
+                <div class="polaroid-card polaroid-item-5 draggable" style="--rot: -4deg; --tx: 10px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo5.jpg" alt="Moment 5" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Together in Time &bull; May 2026</div>
+                </div>
+
+                <!-- Polaroid 6 -->
+                <div class="polaroid-card polaroid-item-6 draggable" style="--rot: 3deg; --tx: -15px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo6.jpg" alt="Moment 6" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Sweet Laughter</div>
+                </div>
+
+                <!-- Polaroid 7 -->
+                <div class="polaroid-card polaroid-item-7 draggable" style="--rot: -5deg; --tx: 8px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo7.jpg" alt="Moment 7" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Shared Sparkles</div>
+                </div>
+
+                <!-- Polaroid 8 -->
+                <div class="polaroid-card polaroid-item-8 draggable" style="--rot: 6deg; --tx: -12px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo8.jpg" alt="Moment 8" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Cozy Moments</div>
+                </div>
+
+                <!-- Polaroid 9 -->
+                <div class="polaroid-card polaroid-item-9 draggable" style="--rot: -3deg; --tx: 18px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo9.jpg" alt="Moment 9" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Our Special Place</div>
+                </div>
+
+                <!-- Polaroid 10 -->
+                <div class="polaroid-card polaroid-item-10 draggable" style="--rot: 4deg; --tx: -5px;">
+                    <div class="polaroid-tape"></div>
+                    <div class="polaroid-photo-frame">
+                        <div class="polaroid-photo-inner">
+                            <img src="assets/images/photo10.jpg" alt="Moment 10" class="polaroid-img">
+                            <div class="polaroid-glare"></div>
+                        </div>
+                    </div>
+                    <div class="polaroid-caption font-cursive">Always &amp; Forever</div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Relationship Timeline Section -->
+        <section class="dashboard-section" id="timeline-section">
+            <div class="section-header text-center">
+                <h2 class="section-title font-sans">Our Milestones</h2>
+                <p class="section-desc font-cursive">The beautiful steps that brought us here</p>
+                <div class="decor-line"></div>
+            </div>
+
+            <div class="timeline-container">
+                <div class="timeline-trail-line"></div>
+                <div class="timeline-filled-line" id="timeline-filled-line"></div>
+
+                <!-- Milestone 1: Dec 14, 2024 -->
+                <div class="timeline-milestone milestone-left">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">December 14, 2024</span>
+                        <h3 class="timeline-heading font-sans">The First Call</h3>
+                        <p class="timeline-text">When we talked for the very first time, breaking the silence and starting a conversation that would never truly end.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 2: Dec 21, 2024 -->
+                <div class="timeline-milestone milestone-right">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">December 21, 2024</span>
+                        <h3 class="timeline-heading font-sans">The First Spark</h3>
+                        <p class="timeline-text">When a simple hello began a connection we didn't know would grow into something so precious. A quiet evening that changed everything.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 3: Dec 23, 2024 -->
+                <div class="timeline-milestone milestone-left">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div class="timeline-content glass-card" style="position: relative;">
+                        <span class="timeline-date font-cursive">December 23, 2024</span>
+                        <h3 class="timeline-heading font-sans">The Unspoken Bond</h3>
+                        <p class="timeline-text">Just two days later, the realization hit that this wasn't ordinary. A beautiful resonance that echoed through the silence of winter nights.</p>
+                        <!-- Hidden Quest Star - subtle glow, she must discover it -->
+                        <span id="quest-3-star" class="hidden-timeline-star pulse-anim" title="✨" aria-label="Secret star">
+                            <i class="fa-solid fa-star"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Milestone 4: Dec 25, 2024 -->
+                <div class="timeline-milestone milestone-right">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-cookie-bite"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">December 25, 2024</span>
+                        <h3 class="timeline-heading font-sans">Warmth & Chocolate</h3>
+                        <p class="timeline-text">Our very first hug and sharing the first sweet chocolate. Holding you close made the winter cold completely melt away.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 5: Dec 31, 2024 -->
+                <div class="timeline-milestone milestone-left">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-face-kiss-wink-heart"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">December 31, 2024</span>
+                        <h3 class="timeline-heading font-sans">The First Kiss</h3>
+                        <p class="timeline-text">Ringing in the new year with a magical memory, locked in our hearts forever as the clock struck midnight.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 6: Jan 23, 2025 -->
+                <div class="timeline-milestone milestone-right">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-motorcycle"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">January 23, 2025</span>
+                        <h3 class="timeline-heading font-sans">First Bike Ride</h3>
+                        <p class="timeline-text">Feeling the wind in our faces, riding together into a beautiful future of endless roads and laughter.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 7: Feb 21, 2025 -->
+                <div class="timeline-milestone milestone-left">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-umbrella-beach"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">February 21, 2025</span>
+                        <h3 class="timeline-heading font-sans">Our First Beach Walk</h3>
+                        <p class="timeline-text">Walking hand-in-hand along the shore, waves touching our feet, sharing deep thoughts under the vast, open sky.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 8: Feb 23, 2025 -->
+                <div class="timeline-milestone milestone-right">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-cloud-showers-heavy"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">February 23, 2025</span>
+                        <h3 class="timeline-heading font-sans">Weathering the Storm</h3>
+                        <p class="timeline-text">Our first breakup. A momentary storm that only proved how strong our roots really are. We chose each other all over again.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 9: Apr 19, 2025 -->
+                <div class="timeline-milestone milestone-left">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-hands-holding"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">April 19, 2025</span>
+                        <h3 class="timeline-heading font-sans">Warmest Arm Hugs</h3>
+                        <p class="timeline-text">Finally fulfilling that long-cherished desire for cozy arm hugs. A moment of pure, uninterrupted safety and love.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 10: June 21 - Sep 5, 2025 -->
+                <div class="timeline-milestone milestone-right">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">June 21 – September 5, 2025</span>
+                        <h3 class="timeline-heading font-sans">Apart but Together</h3>
+                        <p class="timeline-text">A long stretch of not seeing each other, but the distance only showed how closely our hearts are truly bound.</p>
+                    </div>
+                </div>
+
+                <!-- Milestone 11: Present -->
+                <div class="timeline-milestone milestone-left">
+                    <div class="timeline-node glow-effect">
+                        <i class="fa-solid fa-infinity"></i>
+                    </div>
+                    <div class="timeline-content glass-card">
+                        <span class="timeline-date font-cursive">And the Rest is History...</span>
+                        <h3 class="timeline-heading font-sans">Our Unwritten Story</h3>
+                        <p class="timeline-text">Every single day with you is a new page of happiness. I cannot wait to write the rest of our beautiful lifetimes together.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Swipeable Card Deck Section -->
+        <section class="dashboard-section" id="card-deck-section">
+            <div class="section-header text-center">
+                <h2 class="section-title font-sans">16 Reasons Why</h2>
+                <p class="section-desc font-cursive">Swipe left or right to uncover the reasons you are cherished</p>
+                <div class="decor-line"></div>
+            </div>
+
+            <!-- Card Deck Container -->
+            <div class="deck-container-wrapper">
+                <div class="card-deck" id="card-deck">
+                    
+                    <!-- Reason Card 1 -->
+                    <div class="deck-card glass-card" style="--card-idx: 0;">
+                        <span class="card-number font-cursive">01</span>
+                        <h3 class="card-title font-sans">Seeing the Real Me</h3>
+                        <p class="card-content">Because Nuvetha saw the real version of you before the world did — the ambitious, restless, emotionally intense version — and stayed anyway.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 2 -->
+                    <div class="deck-card glass-card" style="--card-idx: 1;">
+                        <span class="card-number font-cursive">02</span>
+                        <h3 class="card-title font-sans">Believing in My Vision</h3>
+                        <p class="card-content">She doesn’t just tolerate your dreams; she emotionally invests in them. Most people hear “billion-dollar vision” and laugh. She listens.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 3 -->
+                    <div class="deck-card glass-card" style="--card-idx: 2;">
+                        <span class="card-number font-cursive">03</span>
+                        <h3 class="card-title font-sans">My Anchor & Balance</h3>
+                        <p class="card-content">She balances you. Your mind is always moving at 200 km/h, but she brings softness and emotional gravity into your life.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 4 -->
+                    <div class="deck-card glass-card" style="--card-idx: 3;">
+                        <span class="card-number font-cursive">04</span>
+                        <h3 class="card-title font-sans">Courage to Love First</h3>
+                        <p class="card-content">She had the courage to love first. That matters more than people realize. Vulnerability is expensive, and she paid first.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 5 -->
+                    <div class="deck-card glass-card" style="--card-idx: 4;">
+                        <span class="card-number font-cursive">05</span>
+                        <h3 class="card-title font-sans">The Rare Mirror</h3>
+                        <p class="card-content">She feels familiar to you because you once said she’s like the female version of yourself. That kind of emotional mirroring is rare.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 6 -->
+                    <div class="deck-card glass-card" style="--card-idx: 5;">
+                        <span class="card-number font-cursive">06</span>
+                        <h3 class="card-title font-sans">Elegance in Motion</h3>
+                        <p class="card-content">Her love for Bharatanatyam adds elegance and discipline to who she is. Art at that level reflects patience, identity, and devotion.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 7 -->
+                    <div class="deck-card glass-card" style="--card-idx: 6;">
+                        <span class="card-number font-cursive">07</span>
+                        <h3 class="card-title font-sans">Always Chosen</h3>
+                        <p class="card-content">She makes you feel chosen, not merely liked.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 8 -->
+                    <div class="deck-card glass-card" style="--card-idx: 7;">
+                        <span class="card-number font-cursive">08</span>
+                        <h3 class="card-title font-sans">Emotional Growth</h3>
+                        <p class="card-content">She challenges you emotionally instead of just hyping you up. That creates growth, not dependency.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 9 -->
+                    <div class="deck-card glass-card" style="--card-idx: 8;">
+                        <span class="card-number font-cursive">09</span>
+                        <h3 class="card-title font-sans">Unwavering Presence</h3>
+                        <p class="card-content">She stayed present during periods where your life and emotions were chaotic.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 10 -->
+                    <div class="deck-card glass-card" style="--card-idx: 9;">
+                        <span class="card-number font-cursive">10</span>
+                        <h3 class="card-title font-sans">A Human Purpose</h3>
+                        <p class="card-content">She gives your ambition a human reason. Success stopped being only about proving people wrong; it also became about building a future with someone.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 11 -->
+                    <div class="deck-card glass-card" style="--card-idx: 10;">
+                        <span class="card-number font-cursive">11</span>
+                        <h3 class="card-title font-sans">Seeing Past the Shield</h3>
+                        <p class="card-content">She understands that behind your confidence there’s pressure, fear, and a need to be understood.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 12 -->
+                    <div class="deck-card glass-card" style="--card-idx: 11;">
+                        <span class="card-number font-cursive">12</span>
+                        <h3 class="card-title font-sans">Her Quiet Influence</h3>
+                        <p class="card-content">She influences your decisions more than you publicly admit — because her opinion carries weight in your mind.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 13 -->
+                    <div class="deck-card glass-card" style="--card-idx: 12;">
+                        <span class="card-number font-cursive">13</span>
+                        <h3 class="card-title font-sans">My Source of Peace</h3>
+                        <p class="card-content">You can imagine success with many people around you, but peace only with a very small number of people. She’s one of them.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 14 -->
+                    <div class="deck-card glass-card" style="--card-idx: 13;">
+                        <span class="card-number font-cursive">14</span>
+                        <h3 class="card-title font-sans">My Safe Harbor</h3>
+                        <p class="card-content">She represents emotional safety without making you feel weak.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 15 -->
+                    <div class="deck-card glass-card" style="--card-idx: 14;">
+                        <span class="card-number font-cursive">15</span>
+                        <h3 class="card-title font-sans">The Inner Spark</h3>
+                        <p class="card-content">She became part of your internal motivation system. When things get difficult, thoughts of her still affect how hard you push forward.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                    <!-- Reason Card 16 -->
+                    <div class="deck-card glass-card" style="--card-idx: 15;">
+                        <span class="card-number font-cursive">16</span>
+                        <h3 class="card-title font-sans">True Admiration</h3>
+                        <p class="card-content">Because love, at its highest level, is admiration mixed with loyalty — and you genuinely admire the person Nuvetha is becoming, not just the way she makes you feel.</p>
+                        <span class="swipe-hint font-cursive">&larr; Swipe or Hover &rarr;</span>
+                    </div>
+
+                </div>
+
+                <!-- Deck Control Buttons -->
+                <div class="deck-action-buttons">
+                    <button class="deck-nav-btn prev-btn" id="deck-prev-btn" aria-label="Previous card">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button class="deck-nav-btn next-btn" id="deck-next-btn" aria-label="Next card">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Adventure Quest Section -->
+        <section class="dashboard-section" id="adventure-section">
+            <div class="section-header text-center">
+                <h2 class="section-title font-sans">The Adventure Quest</h2>
+                <p class="section-desc font-cursive">Complete 5 playful challenges to retrieve the passcode clues</p>
+                <div class="decor-line"></div>
+            </div>
+
+            <div class="quest-progress-tracker text-center">
+                <span class="font-sans">Quests Completed: <span id="quest-count">0</span> / 5 solved</span>
+                <div class="quest-progress-bar-container">
+                    <div class="quest-progress-fill" id="quest-progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="quest-grid">
+                
+                <!-- Quest 1: Trivia -->
+                <div class="quest-card glass-card text-center" id="quest-1-card">
+                    <div class="quest-status-icon" id="q1-status"><i class="fa-solid fa-lock"></i></div>
+                    <h3 class="quest-title font-sans">Quest 1: Trivia</h3>
+                    <p class="quest-prompt font-cursive">"Unakku 'naan' Enakku '___'"</p>
+                    <div class="quest-action">
+                        <input type="text" id="quest-1-input" class="quest-input font-sans" placeholder="Type answer...">
+                        <button id="quest-1-submit" class="quest-submit-btn" aria-label="Submit Answer"><i class="fa-solid fa-check"></i></button>
+                    </div>
+                    <div class="quest-clue-reveal hidden" id="q1-clue">
+                        <span class="clue-label font-sans">Clue #1:</span>
+                        <span class="clue-digit font-cursive glow-text">2</span>
+                    </div>
+                </div>
+
+                <!-- Quest 2: Polaroid Key -->
+                <div class="quest-card glass-card text-center" id="quest-2-card">
+                    <div class="quest-status-icon" id="q2-status"><i class="fa-solid fa-lock"></i></div>
+                    <h3 class="quest-title font-sans">Quest 2: Polaroid Key</h3>
+                    <p class="quest-prompt font-cursive">Drag the polaroids around to find the hidden gold key and click it!</p>
+                    <div class="quest-clue-reveal hidden" id="q2-clue">
+                        <span class="clue-label font-sans">Clue #2:</span>
+                        <span class="clue-digit font-cursive glow-text">8</span>
+                    </div>
+                </div>
+
+                <!-- Quest 3: Card Deck Swipe -->
+                <div class="quest-card glass-card text-center" id="quest-3-card">
+                    <div class="quest-status-icon" id="q3-status"><i class="fa-solid fa-lock"></i></div>
+                    <h3 class="quest-title font-sans">Quest 3: Card Deck Swipe</h3>
+                    <p class="quest-prompt font-cursive">Cycle or swipe through all 16 reasons why you are special.</p>
+                    <div class="quest-clue-reveal hidden" id="q3-clue">
+                        <span class="clue-label font-sans">Clue #3:</span>
+                        <span class="clue-digit font-cursive glow-text">9</span>
+                    </div>
+                </div>
+
+                <!-- Quest 4: Hidden Star -->
+                <div class="quest-card glass-card text-center" id="quest-4-card">
+                    <div class="quest-status-icon" id="q4-status"><i class="fa-solid fa-lock"></i></div>
+                    <h3 class="quest-title font-sans">Quest 4: Hidden Star</h3>
+                    <p class="quest-prompt font-cursive">There's a secret glowing star hidden in "Our Milestones" — find it and click it!</p>
+                    <div class="quest-clue-reveal hidden" id="q4-clue">
+                        <span class="clue-label font-sans">Clue #4:</span>
+                        <span class="clue-digit font-cursive glow-text">2</span>
+                    </div>
+                </div>
+
+                <!-- Quest 5: Golden Balloon Pop (Final Quest!) -->
+                <div class="quest-card glass-card text-center" id="quest-5-card">
+                    <div class="quest-status-icon" id="q5-status"><i class="fa-solid fa-lock"></i></div>
+                    <h3 class="quest-title font-sans">Quest 5: Golden Balloon ✨</h3>
+                    <p class="quest-prompt font-cursive">Spot the glowing Golden Balloon floating up and pop it — it holds the final secret digit!</p>
+                    <div class="quest-clue-reveal hidden" id="q5-clue">
+                        <span class="clue-label font-sans">Clue #5:</span>
+                        <span class="clue-digit font-cursive glow-text">3</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Secret Letter & Unlocking Section -->
+        <section class="dashboard-section" id="secret-section">
+            <div class="section-header text-center">
+                <h2 class="section-title font-sans">The Secret Letter</h2>
+                <p class="section-desc font-cursive">Locked until the exact moment of your arrival: 2:36 AM</p>
+                <div class="decor-line"></div>
+            </div>
+
+            <div class="secret-card-container">
+                <!-- LOCKED STATE CARD -->
+                <!-- Active by default. Removed by JS when successfully unlocked -->
+                <div class="secret-lock-card glass-card text-center active" id="secret-lock-card">
+                    <div class="lock-visual-container">
+                        <div class="pulsing-glow-ring"></div>
+                        <i class="fa-solid fa-lock" id="secret-lock-icon"></i>
+                    </div>
+                    
+                    <h3 class="secret-lock-heading font-sans">Locked in Mystery</h3>
+                    <p class="secret-lock-text font-sans">This envelope will open automatically at 2:36 AM on May 28th, 2026. If you have the passkey, you may unlock it manually.</p>
+                    
+                    <!-- Countdown display inside lock card -->
+                    <div class="secret-letter-timer" id="secret-letter-timer">
+                        <div class="letter-time-segment">
+                            <span class="num" id="letter-hours">00</span><span class="lbl">H</span>
+                        </div>
+                        <div class="letter-time-divider">:</div>
+                        <div class="letter-time-segment">
+                            <span class="num" id="letter-minutes">00</span><span class="lbl">M</span>
+                        </div>
+                        <div class="letter-time-divider">:</div>
+                        <div class="letter-time-segment">
+                            <span class="num" id="letter-seconds">00</span><span class="lbl">S</span>
+                        </div>
+                    </div>
+
+                    <button class="unlock-overlay-btn font-sans" id="unlock-letter-btn">
+                        Enter Passcode <i class="fa-solid fa-key"></i>
+                    </button>
+                </div>
+
+                <!-- UNLOCKED STATE CARD (The Revealed Letter & Video) -->
+                <!-- Hidden by default. Class 'unlocked' added by JS to reveal it -->
+                <div class="secret-revealed-card glass-card" id="secret-revealed-card">
+                    <div class="letter-top-accent">
+                        <i class="fa-solid fa-heart letter-decor-heart"></i>
+                    </div>
+                    
+                    <div class="revealed-letter-header text-center">
+                        <h2 class="font-cursive revealed-letter-title">My Heart on Paper</h2>
+                        <span class="letter-date-stamp font-sans">May 28th, 2:36 AM</span>
+                    </div>
+
+                    <div class="letter-scrollable-body font-cursive">
+                        <p>My Dearest Nuvetha,</p>
+                        
+                        <p>They say sixteen is a landmark age, a bridge between childhood wonders and the vast ocean of adulthood. But to me, sixteen is simply another year of seeing your light shine brighter. You are a constellation of intelligence, kindness, and incredible resilience.</p>
+                        
+                        <p>I remember the first milestones we crossed, the subtle changes from December 21st to 23rd in 2024 when a silent connection hummed into something that couldn't be ignored. Through all the days since, you have been my favorite thought, my safest harbor, and the laughter I always look forward to hearing.</p>
+                        
+                        <p>On this beautiful birthday, my wishes for you are simple: continue to trust your beautiful heart. Never dim your glow for the convenience of others, and always remember how incredibly loved you are just for being exactly who you are.</p>
+                        
+                        <p>This little corner of the internet is a monument to you—your smile, your grace, and the beautiful memories we share. May your 16th year be as breathtaking as your laughter.</p>
+                        
+                        <p class="letter-signature font-cursive">Always and forever,</p>
+                        <p class="letter-sender font-cursive">Yours</p>
+                    </div>
+
+                    <!-- Custom Beautiful Video Player Container -->
+                    <div class="custom-video-player-container">
+                        <h3 class="video-section-heading font-sans">Our Chapter in Motion</h3>
+                        <div class="video-aspect-wrapper">
+                            <div class="video-overlay-glow"></div>
+                            
+                            <!-- Video Play Placeholder Area -->
+                            <div class="video-play-placeholder" id="video-placeholder">
+                                <button class="video-play-btn" id="video-play-trigger" aria-label="Play video">
+                                    <i class="fa-solid fa-play"></i>
+                                </button>
+                                <span class="play-hint-text font-sans">Unveil Our Story</span>
+                            </div>
+                            
+                            <!-- Iframe Container inside the player border -->
+                            <iframe class="video-iframe hidden" id="video-iframe" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer text-center">
+            <div class="footer-rose-gold-glow"></div>
+            <p class="footer-text font-cursive">Happy 16th Birthday, Nuvetha</p>
+            <p class="footer-subtext font-sans">&copy; 2026 Crafted with love. All rights reserved.</p>
+        </footer>
+
+    </div>
+
+    <!-- PIN PAD PASSCODE MODAL OVERLAY -->
+    <!-- Toggle class 'active' to show modal -->
+    <div class="modal-overlay" id="pin-pad-modal">
+        <div class="pin-pad-card glass-card text-center">
+            <!-- Close Button -->
+            <button class="pin-modal-close" id="pin-modal-close" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="pin-header">
+                <i class="fa-solid fa-shield-halved pin-lock-icon"></i>
+                <h3 class="pin-modal-title font-sans">Access Key Required</h3>
+                <p class="pin-modal-desc font-sans">Enter the 5-digit passcode to unlock the letter</p>
+            </div>
+
+            <!-- PIN Display Dots -->
+            <div class="pin-entry-dots" id="pin-entry-dots">
+                <span class="entry-dot"></span>
+                <span class="entry-dot"></span>
+                <span class="entry-dot"></span>
+                <span class="entry-dot"></span>
+                <span class="entry-dot"></span>
+            </div>
+
+            <!-- PIN Pad Grid -->
+            <div class="pin-button-grid">
+                <button class="pin-digit-btn" data-val="1">1</button>
+                <button class="pin-digit-btn" data-val="2">2</button>
+                <button class="pin-digit-btn" data-val="3">3</button>
+                <button class="pin-digit-btn" data-val="4">4</button>
+                <button class="pin-digit-btn" data-val="5">5</button>
+                <button class="pin-digit-btn" data-val="6">6</button>
+                <button class="pin-digit-btn" data-val="7">7</button>
+                <button class="pin-digit-btn" data-val="8">8</button>
+                <button class="pin-digit-btn" data-val="9">9</button>
+                <button class="pin-digit-btn pin-action-btn pin-clear" id="pin-btn-clear" aria-label="Clear pin">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+                <button class="pin-digit-btn" data-val="0">0</button>
+                <button class="pin-digit-btn pin-action-btn pin-backspace" id="pin-btn-back" aria-label="Backspace">
+                    <i class="fa-solid fa-delete-left"></i>
+                </button>
+            </div>
+
+            <!-- Error message feedback -->
+            <div class="pin-error-feedback font-sans" id="pin-error-message">
+                <i class="fa-solid fa-circle-exclamation"></i> Passkey incorrect. Please try again.
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
