@@ -1930,7 +1930,7 @@ const initNameTextAnimations = () => {
         el.innerHTML = '';
         el.style.display = 'flex';
         el.style.justifyContent = 'center';
-        el.style.flexWrap = 'wrap';
+        el.style.flexWrap = 'nowrap';
 
         Array.from(text).forEach((char, idx) => {
             const span = document.createElement('span');
