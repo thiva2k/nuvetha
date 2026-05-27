@@ -1608,7 +1608,7 @@ body {
     height: 80px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1718,6 +1718,15 @@ body {
 
 .unlock-overlay-btn:active {
     transform: translateY(0);
+}
+
+.unlock-overlay-btn:disabled {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.45) !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
 }
 
 /* UNLOCKED REVEALED STATE CARD */
@@ -2170,6 +2179,7 @@ body {
     }
     .track-text {
         display: none; /* Hide song title on very small phones to save space */
+    }
 }
 
 /* ----------------------------------------------------
@@ -2233,4 +2243,3 @@ button,
 .interactive-balloon {
     touch-action: manipulation;
 }
-

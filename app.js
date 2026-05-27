@@ -624,11 +624,11 @@ const playBackgroundMusic = () => {
             let currentVol = bgMusic.volume;
             const interval = setInterval(() => {
                 if (currentVol < 0.5) {
-                    currentVol += 0.05;
-                    bgMusic.volume = Math.min(currentVol, 0.5);
+                     currentVol += 0.05;
+                     bgMusic.volume = Math.min(currentVol, 0.5);
                 } else {
-                    clearInterval(interval);
-                    musicFading = false;
+                     clearInterval(interval);
+                     musicFading = false;
                 }
             }, 100);
         }
@@ -751,18 +751,53 @@ const initCountdowns = () => {
         const now = new Date().getTime();
         const lockCard = document.getElementById('secret-lock-card');
         const revealedCard = document.getElementById('secret-revealed-card');
+        const lockBtn = document.getElementById('unlock-letter-btn');
 
-        if (debugState.simulateStage2Unlocked || now >= letterTargetTime || isLetterUnlocked) {
-            // Auto unlock stage 2
+        if (isLetterUnlocked) {
             if (lockCard) lockCard.classList.remove('active');
             if (revealedCard) revealedCard.classList.add('unlocked');
-            
-            if (!isLetterUnlocked) {
-                isLetterUnlocked = true;
-                typeOutSecretLetter();
-                setupVideoFrameActions();
+            return;
+        }
+
+        if (debugState.simulateStage2Unlocked || now >= letterTargetTime) {
+            // Enable passcode entry once timer is done
+            if (lockBtn) {
+                lockBtn.disabled = false;
+                lockBtn.innerHTML = 'Enter Passcode <i class="fa-solid fa-key"></i>';
+                lockBtn.style.cursor = 'pointer';
+                lockBtn.style.opacity = '1';
+            }
+
+            const lhEl = document.getElementById('letter-hours');
+            const lmEl = document.getElementById('letter-minutes');
+            const lsEl = document.getElementById('letter-seconds');
+            if (lhEl) lhEl.innerText = '00';
+            if (lmEl) lmEl.innerText = '00';
+            if (lsEl) lsEl.innerText = '00';
+
+            // Auto-trigger PIN pad modal once all 5 quests are completed and timer hits zero
+            const completedCount = Object.values(questStatus).filter(v => v === true).length;
+            if (completedCount >= 5) {
+                const pinModal = document.getElementById('pin-pad-modal');
+                if (pinModal && !pinModal.classList.contains('active')) {
+                    setTimeout(() => {
+                        pinModal.classList.add('active');
+                        const desc = pinModal.querySelector('.pin-modal-desc');
+                        if (desc) {
+                            desc.innerText = "All quests complete! Enter the passcode to unlock the letter.";
+                        }
+                    }, 1000);
+                }
             }
             return;
+        }
+
+        // Before 2:36 AM: button is disabled
+        if (lockBtn) {
+            lockBtn.disabled = true;
+            lockBtn.innerHTML = 'Locked until 2:36 AM <i class="fa-solid fa-lock"></i>';
+            lockBtn.style.cursor = 'not-allowed';
+            lockBtn.style.opacity = '0.6';
         }
 
         const distance = letterTargetTime - now;
@@ -784,7 +819,7 @@ const initCountdowns = () => {
         if (pinModal && pinModal.classList.contains('active')) {
             const desc = pinModal.querySelector('.pin-modal-desc');
             if (desc) {
-                desc.innerText = `Enter the passcode or wait for auto-unlock in: ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                desc.innerText = `Enter the passcode or wait for 2:36 AM: ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
             }
         }
     };
@@ -1359,7 +1394,6 @@ const initScratchCard = () => {
     
     ctx.fillStyle = '#fff';
     ctx.font = '14px Montserrat';
-    ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('Scratch here', canvas.width / 2, canvas.height / 2);
 
@@ -1543,18 +1577,21 @@ const checkQuestCompletion = () => {
     if (questCountEl) questCountEl.innerText = solvedHTMLCards;
     if (questProgressFill) questProgressFill.style.width = `${(solvedHTMLCards / 5) * 100}%`;
 
-    // When all 5 engine quests complete, automatically slide in PIN pad modal
+    // When all 5 engine quests complete, automatically slide in PIN pad modal (only if timer is finished)
     if (completedCount >= 5) {
-        setTimeout(() => {
-            const pinModal = document.getElementById('pin-pad-modal');
-            if (pinModal && !pinModal.classList.contains('active') && !isLetterUnlocked) {
-                pinModal.classList.add('active');
-                const desc = pinModal.querySelector('.pin-modal-desc');
-                if (desc) {
-                    desc.innerText = "All quests complete! Enter the passcode to unlock the letter.";
+        const now = new Date().getTime();
+        if (debugState.simulateStage2Unlocked || now >= letterTargetTime) {
+            setTimeout(() => {
+                const pinModal = document.getElementById('pin-pad-modal');
+                if (pinModal && !pinModal.classList.contains('active') && !isLetterUnlocked) {
+                    pinModal.classList.add('active');
+                    const desc = pinModal.querySelector('.pin-modal-desc');
+                    if (desc) {
+                        desc.innerText = "All quests complete! Enter the passcode to unlock the letter.";
+                    }
                 }
-            }
-        }, 1200);
+            }, 1200);
+        }
     }
 };
 
@@ -1585,6 +1622,10 @@ const initPinPadValidation = () => {
 
     if (lockBtn) {
         lockBtn.addEventListener('click', () => {
+            const now = new Date().getTime();
+            if (now < letterTargetTime && !debugState.simulateStage2Unlocked) {
+                return; // Guard to prevent opening modal if early
+            }
             if (modal) {
                 modal.classList.add('active');
                 enteredCode = '';
@@ -1621,6 +1662,10 @@ const initPinPadValidation = () => {
     // Handle number pad button clicks
     digitBtns.forEach(btn => {
         btn.addEventListener('click', () => {
+            const now = new Date().getTime();
+            if (now < letterTargetTime && !debugState.simulateStage2Unlocked) {
+                return; // Guard to prevent input if accessed early
+            }
             resumeAudioContext();
             const val = btn.getAttribute('data-val');
 
