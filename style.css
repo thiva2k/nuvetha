@@ -84,13 +84,6 @@ body {
     text-shadow: 0 0 10px rgba(183, 110, 121, 0.3), 0 0 20px rgba(247, 231, 206, 0.2);
 }
 
-.gold-text {
-    color: var(--rose-gold);
-    background: linear-gradient(135deg, var(--rose-gold-dark) 0%, var(--rose-gold) 50%, var(--champagne-dark) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
 .text-center {
     text-align: center;
 }
@@ -1472,74 +1465,6 @@ body {
 /* ==========================================
    INTERACTIVE KEYFRAME ANIMATIONS
    ========================================== */
-
-/* Shockwave Ring Animation */
-.shockwave {
-    position: absolute;
-    border: 3px solid var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    animation: shockwave-pulse 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-}
-
-@keyframes shockwave-pulse {
-    0% {
-        width: 0;
-        height: 0;
-        opacity: 1;
-        box-shadow: 0 0 10px var(--gold-glow);
-    }
-    100% {
-        width: 300px;
-        height: 300px;
-        opacity: 0;
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0);
-    }
-}
-
-/* Golden Button Glow Pulse */
-.golden-glow-btn {
-    position: relative;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-    color: var(--text-dark);
-    font-weight: 700;
-    box-shadow: 0 0 12px var(--gold-glow);
-    animation: golden-pulse-glow 2.5s infinite alternate ease-in-out;
-}
-
-@keyframes golden-pulse-glow {
-    0% {
-        box-shadow: 0 0 8px rgba(212, 175, 55, 0.4), 0 0 12px rgba(212, 175, 55, 0.2);
-        transform: scale(1);
-    }
-    100% {
-        box-shadow: 0 0 25px rgba(212, 175, 55, 0.95), 0 0 45px rgba(212, 175, 55, 0.5);
-        transform: scale(1.02);
-    }
-}
-
-/* Particle Elements Float Animation */
-.particle-element {
-    position: absolute;
-    pointer-events: none;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--champagne-light) 0%, transparent 70%);
-    animation: float-particle 7s infinite ease-in-out;
-    opacity: 0.4;
-}
-
-@keyframes float-particle {
-    0%, 100% {
-        transform: translateY(0) scale(1) rotate(0deg);
-        opacity: 0.3;
-    }
-    50% {
-        transform: translateY(-30px) scale(1.2) rotate(180deg);
-        opacity: 0.85;
-    }
-}
 
 /* Clue unfold animation */
 @keyframes clue-appear {
