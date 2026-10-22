@@ -1187,72 +1187,6 @@ const fallbackWishes = [
 const initFloatingBalloons = () => {
     // Periodically spawn interactive balloons
     setInterval(spawnInteractiveBalloon, 6000);
-    
-    // Wire up custom wish submission form
-    const form = document.getElementById('wish-creation-form');
-    const inputMsg = document.getElementById('wish-message-input');
-    const inputName = document.getElementById('wish-author-name');
-    const board = document.getElementById('wishes-board');
-
-    if (form) {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const message = inputMsg.value.trim();
-            const author = inputName.value.trim();
-
-            if (message && author) {
-                // 1. Create sticky post-it note on the wall
-                const note = document.createElement('div');
-                const col = Math.floor(Math.random() * 4) + 1; // note-color-1 to 4
-                note.className = `wish-sticky-note note-color-${col}`;
-                
-                const tilt = (Math.random() * 6 - 3).toFixed(1); // -3deg to 3deg rotation
-                note.style.transform = `rotate(${tilt}deg)`;
-                note.innerHTML = `
-                    <div class="note-pin"></div>
-                    <p class="note-text font-cursive">"${message}"</p>
-                    <span class="note-signature font-sans">&mdash; ${author}</span>
-                `;
-
-                if (board) board.insertBefore(note, board.firstChild);
-
-                // 2. Launch a custom balloon representing this wish!
-                const formRect = form.getBoundingClientRect();
-                const startX = formRect.left + formRect.width / 2;
-                const leftOffsetPercent = (startX / window.innerWidth) * 100;
-
-                const b = document.createElement('div');
-                const colClass = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-                b.className = `balloon ${colClass} interactive-balloon`;
-                b.style.setProperty('--balloon-left', `${leftOffsetPercent}%`);
-                b.style.setProperty('--balloon-size', '68px');
-                b.style.setProperty('--balloon-duration', '15s');
-
-                // Attach user details to balloon
-                b.wishData = { author, message };
-
-                // Add pop interactions
-                b.addEventListener('click', (e) => popInteractiveBalloon(b, e.clientX, e.clientY));
-                b.addEventListener('touchstart', (e) => {
-                    if (e.touches && e.touches[0]) {
-                        popInteractiveBalloon(b, e.touches[0].clientX, e.touches[0].clientY);
-                        e.preventDefault();
-                    }
-                });
-                b.addEventListener('animationend', () => b.remove());
-
-                document.body.appendChild(b);
-
-                // Confetti burst on submit button area
-                triggerConfetti(formRect.left + formRect.width / 2, formRect.top + formRect.height / 2);
-
-                // Clear inputs
-                inputMsg.value = '';
-                inputName.value = '';
-            }
-        });
-    }
 };
 
 const spawnInteractiveBalloon = () => {
@@ -1379,67 +1313,6 @@ const initQuestEngine = () => {
             triggerConfetti(window.innerWidth / 2, window.innerHeight / 2);
         });
     }
-
-    // Initialize Scratch Card canvas (Quest 2 visual — key is hidden behind polaroid)
-    initScratchCard();
-};
-
-const initScratchCard = () => {
-    const canvas = document.getElementById('quest-2-canvas');
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#d8b2b7'; // Rose gold
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.fillStyle = '#fff';
-    ctx.font = '14px Montserrat';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('Scratch here', canvas.width / 2, canvas.height / 2);
-
-    let isDrawing = false;
-
-    const scratch = (clientX, clientY) => {
-        const rect = canvas.getBoundingClientRect();
-        const x = clientX - rect.left;
-        const y = clientY - rect.top;
-
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.beginPath();
-        ctx.arc(x, y, 16, 0, Math.PI * 2);
-        ctx.fill();
-    };
-
-    const startScratching = (e) => {
-        isDrawing = true;
-        const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
-        const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
-        scratch(clientX, clientY);
-    };
-
-    const moveScratching = (e) => {
-        if (!isDrawing) return;
-        const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
-        const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
-        scratch(clientX, clientY);
-        
-        if (e.cancelable) {
-            e.preventDefault();
-        }
-    };
-
-    const endScratching = () => {
-        isDrawing = false;
-    };
-
-    canvas.addEventListener('mousedown', startScratching);
-    canvas.addEventListener('mousemove', moveScratching);
-    canvas.addEventListener('mouseup', endScratching);
-    canvas.addEventListener('mouseleave', endScratching);
-
-    canvas.addEventListener('touchstart', startScratching, { passive: false });
-    canvas.addEventListener('touchmove', moveScratching, { passive: false });
-    canvas.addEventListener('touchend', endScratching);
 };
 
 const spawnGoldQuestBalloon = () => {
@@ -1508,11 +1381,6 @@ const solveQuest = (questNum) => {
             const clue2 = document.getElementById('q2-clue');
             if (clue2) clue2.classList.remove('hidden');
 
-            const canvas = document.getElementById('quest-2-canvas');
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
             const rect = card2.getBoundingClientRect();
             triggerConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
         }
